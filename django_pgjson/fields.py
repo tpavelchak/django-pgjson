@@ -14,6 +14,7 @@ from django.db import models
 from django.db.backends.postgresql_psycopg2.version import get_version
 from django.conf import settings
 from django.utils import six
+import collections
 
 if django.VERSION >= (1, 7):
     from django.utils.module_loading import import_string
@@ -64,7 +65,7 @@ class JsonField(base_field_class):
 
     def get_default(self):
         if self.has_default():
-            if callable(self.default):
+            if isinstance(self.default, collections.Callable):
                 return self.default()
             return copy.copy(self.default)
         return None
